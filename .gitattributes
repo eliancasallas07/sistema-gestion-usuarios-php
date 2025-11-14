@@ -1,0 +1,10 @@
+# Forzar que GitHub reconozca correctamente los lenguajes
+*.php linguist-language=PHP
+*.js linguist-language=JavaScript
+*.html linguist-language=HTML
+*.css linguist-language=CSS
+*.md linguist-language=Markdown
+
+# Ignorar archivos de configuración en estadísticas
+config/* linguist-documentation
+*.md linguist-documentation
