@@ -6,100 +6,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Sistema de Usuarios</title>
     <style>
+        :root {
+            /* Variables CSS */
+            --color-primary: #007bff;
+            --color-primary-dark: #0056b3;
+            --color-primary-hover: #0069d9;
+            --color-bg: #f5f5f5;
+            --color-white: #ffffff;
+            --color-text: #333333;
+            --color-text-light: #666666;
+            --color-border: #dddddd;
+            
+            /* Colores de error */
+            --color-error: #dc3545;
+            --color-error-light: #fee;
+            --color-error-dark: #c66;
+
+            /* Espaciados */
+            --spacing-xs: 5px;
+            --spacing-sm: 10px;
+            --spacing-md: 20px;
+            --spacing-lg: 30px;
+            --spacing-xl: 40px;
+
+            /* Bordes */
+            --radius-sm: 5px;
+            --radius-md: 10px;
+
+            /* Sombras */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--color-bg) 0%, #e8e8e8 100%);
             margin: 0;
-            padding: 0;
+            padding: var(--spacing-md);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            place-items: center;
         }
 
         .registro-container {
-            background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            background: var(--color-white);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            display: grid;
+            gap: var(--spacing-lg);
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .registro-header {
             text-align: center;
-            margin-bottom: 30px;
+            display: grid;
+            gap: var(--spacing-sm);
         }
 
         .registro-header h1 {
-            color: #333;
+            color: var(--color-text);
             margin: 0;
-            font-size: 28px;
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 600;
+            letter-spacing: -0.5px;
         }
 
         .registro-header p {
-            color: #666;
-            margin: 10px 0 0 0;
+            color: var(--color-text-light);
+            margin: 0;
+            font-size: 15px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            display: grid;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-md);
         }
 
         label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
+            color: var(--color-text);
             font-weight: 500;
+            font-size: 14px;
+            letter-spacing: 0.2px;
         }
 
         input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-            box-sizing: border-box;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: var(--color-white);
         }
 
         input[type="text"]:focus,
         input[type="email"]:focus,
         input[type="password"]:focus {
             outline: none;
-            border-color: #4CAF50;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+            transform: translateY(-1px);
+        }
+
+        input[type="text"]:hover,
+        input[type="email"]:hover,
+        input[type="password"]:hover {
+            border-color: var(--color-primary-dark);
         }
 
         .btn-registro {
             width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
-            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
         }
 
         .btn-registro:hover {
-            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-registro:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
         }
 
         .login-link {
             text-align: center;
-            margin-top: 20px;
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+            display: grid;
+            gap: var(--spacing-xs);
+        }
+
+        .login-link p {
+            color: var(--color-text-light);
+            font-size: 14px;
+            margin: 0;
         }
 
         .login-link a {
-            color: #4CAF50;
+            color: var(--color-primary);
             text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .login-link a:hover {
-            text-decoration: underline;
+            color: var(--color-primary-dark);
+            transform: translateX(2px);
+            display: inline-block;
+        }
+
+        /* Diseño Responsivo */
+        @media (max-width: 480px) {
+            body {
+                padding: var(--spacing-sm);
+            }
+
+            .registro-container {
+                padding: var(--spacing-md);
+                gap: var(--spacing-md);
+            }
+
+            .registro-header h1 {
+                font-size: 24px;
+            }
         }
     </style>
 </head>

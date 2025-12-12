@@ -6,87 +6,360 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Usuarios - Moderno</title>
     <style>
+        :root {
+            /* Variables CSS */
+            --color-primary: #007bff;
+            --color-primary-dark: #0056b3;
+            --color-primary-hover: #0069d9;
+            --color-success: #28a745;
+            --color-success-dark: #218838;
+            --color-danger: #dc3545;
+            --color-danger-dark: #c82333;
+            --color-bg: #f5f5f5;
+            --color-white: #ffffff;
+            --color-text: #333333;
+            --color-text-light: #666666;
+            --color-border: #dddddd;
+            --color-table-header: #f8f9fa;
+
+            /* Espaciados */
+            --spacing-xs: 5px;
+            --spacing-sm: 10px;
+            --spacing-md: 20px;
+            --spacing-lg: 30px;
+            --spacing-xl: 40px;
+
+            /* Bordes */
+            --radius-sm: 5px;
+            --radius-md: 10px;
+
+            /* Sombras */
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--color-bg) 0%, #e8e8e8 100%);
+            margin: 0;
+            padding: var(--spacing-md);
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: var(--color-white);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            display: grid;
+            gap: var(--spacing-lg);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--color-text);
+            margin: 0;
+            font-size: clamp(24px, 4vw, 32px);
+            font-weight: 600;
+            display: grid;
+            gap: var(--spacing-sm);
+        }
+
+        h1 + p {
+            color: var(--color-text-light);
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+            color: var(--color-white);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-section {
+            background: var(--color-table-header);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-sm);
+            display: grid;
+            gap: var(--spacing-sm);
+        }
+
+        .search-section label {
+            color: var(--color-text);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .search-section input {
+            padding: var(--spacing-sm);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-section input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-section {
+            background: var(--color-table-header);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-sm);
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .form-section h3 {
+            color: var(--color-text);
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .form-section form {
+            display: grid;
+            gap: var(--spacing-sm);
+        }
+
+        .form-group {
+            display: grid;
+            gap: var(--spacing-xs);
+        }
+
+        .form-group label {
+            color: var(--color-text);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: var(--spacing-sm);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
         }
 
         th,
         td {
-            padding: 12px;
+            padding: var(--spacing-sm);
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--color-border);
         }
 
         th {
-            background-color: #f8f9fa;
-            font-weight: bold;
+            background-color: var(--color-table-header);
+            color: var(--color-text);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .btn {
-            background-color: #007bff;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        td {
+            color: var(--color-text-light);
+            font-size: 14px;
         }
 
-        .btn:hover {
-            background-color: #0056b3;
+        tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, var(--color-danger), var(--color-danger-dark));
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, var(--color-success), var(--color-success-dark));
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xs);
+        }
+
+        /* Diseño Responsivo */
+        @media (max-width: 768px) {
+            body {
+                padding: var(--spacing-xs);
+            }
+
+            .container {
+                padding: var(--spacing-sm);
+                gap: var(--spacing-sm);
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            h1 + p {
+                font-size: 13px;
+            }
+
+            .btn-group {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                font-size: 13px;
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+
+            .search-section,
+            .form-section {
+                padding: var(--spacing-sm);
+            }
+
+            .form-section h3 {
+                font-size: 16px;
+            }
+
+            .form-group input {
+                font-size: 14px;
+            }
+
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                font-size: 11px;
+            }
+
+            th, td {
+                padding: var(--spacing-xs);
+                font-size: 11px;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .action-buttons .btn {
+                font-size: 11px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: var(--spacing-xs);
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            table {
+                font-size: 10px;
+            }
+
+            th, td {
+                padding: 3px;
+                font-size: 10px;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>🚀 Sistema de Usuarios Moderno</h1>
-        <p>Datos cargados via API + JavaScript</p>
+        <div>
+            <h1>🚀 Sistema de Usuarios Moderno</h1>
+            <p>Datos cargados via API + JavaScript</p>
+        </div>
 
-        <button class="btn" onclick="cargarUsuarios()">🔄 Cargar Usuarios</button>
-        <button class="btn" onclick="ExportarUsuarios()">⬇️ Exportar Usuarios</button>
+        <div class="btn-group">
+            <button class="btn" onclick="cargarUsuarios()">🔄 Cargar Usuarios</button>
+            <button class="btn" onclick="ExportarUsuarios()">⬇️ Exportar Usuarios</button>
+        </div>
 
-        <div style="background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <div class="search-section">
             <form id="controles">
-                <div style="margin-bottom: 10px;">
-                    <label>🔍Buscar:</label>
-                    <input type="text" id="busqueda" placeholder="Buscar por ID, nombre o email..." style="width: 200px; padding: 5px;">
+                <div class="form-group">
+                    <label>🔍 Buscar:</label>
+                    <input type="text" id="busqueda" placeholder="Buscar por ID, nombre o email...">
                 </div>
-
             </form>
         </div>
 
         <!-- Formulario para crear usuario -->
-        <div style="background: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 8px;">
+        <div class="form-section">
             <h3>➕ Crear Nuevo Usuario</h3>
             <form id="formularioUsuario">
-                <div style="margin-bottom: 10px;">
+                <div class="form-group">
                     <label>Nombre:</label>
-                    <input type="text" id="nombre" style="width: 200px; padding: 5px;">
+                    <input type="text" id="nombre" placeholder="Ingresa el nombre completo">
                 </div>
-                <div style="margin-bottom: 10px;">
+                <div class="form-group">
                     <label>Email:</label>
-                    <input type="text" id="email" style="width: 200px; padding: 5px;">
+                    <input type="email" id="email" placeholder="ejemplo@correo.com">
                 </div>
-                <div style="margin-bottom: 10px;">
+                <div class="form-group">
                     <label>Contraseña:</label>
-                    <input type="password" id="password" style="width: 200px; padding: 5px;">
+                    <input type="password" id="password" placeholder="Mínimo 6 caracteres">
                 </div>
                 <button type="submit" class="btn">➕ Crear Usuario</button>
             </form>
@@ -104,7 +377,6 @@
             </thead>
             <tbody id="tablaUsuarios">
                 <!-- Los usuarios aparecerán aquí -->
-
             </tbody>
         </table>
     </div>
@@ -158,12 +430,14 @@
                 <td>${usuario.email}</td>
                 <td>${usuario.fecha_creacion}</td>
                 <td>
-                    <button class="btn" onclick="borrarUsuario(${usuario.id})" style="background-color: #dc3545;">
-                        🗑️ Borrar
-                    </button>
-                    <button class="btn" onclick="editarUsuario(${usuario.id})" style="background-color: #28a745;">
-                         ✏️ Editar  
-                    </button>
+                    <div class="action-buttons">
+                        <button class="btn btn-delete" onclick="borrarUsuario(${usuario.id})">
+                            🗑️ Borrar
+                        </button>
+                        <button class="btn btn-edit" onclick="editarUsuario(${usuario.id})">
+                            ✏️ Editar  
+                        </button>
+                    </div>
                 </td>
             </tr>
         `;
