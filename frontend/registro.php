@@ -108,7 +108,8 @@
 
         input[type="text"],
         input[type="email"],
-        input[type="password"] {
+        input[type="password"],
+        select {
             width: 100%;
             padding: var(--spacing-sm);
             border: 1px solid var(--color-border);
@@ -120,7 +121,8 @@
 
         input[type="text"]:focus,
         input[type="email"]:focus,
-        input[type="password"]:focus {
+        input[type="password"]:focus,
+        select:focus {
             outline: none;
             border-color: var(--color-primary);
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
@@ -129,8 +131,21 @@
 
         input[type="text"]:hover,
         input[type="email"]:hover,
-        input[type="password"]:hover {
+        input[type="password"]:hover,
+        select:hover {
             border-color: var(--color-primary-dark);
+        }
+
+        /* Estilo del selector de rol */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23666' d='M5.25 7.5l4.5 4.5 4.5-4.5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--spacing-sm) center;
+            padding-right: calc(var(--spacing-lg) + 10px);
+            cursor: pointer;
         }
 
         .btn-registro {
@@ -231,6 +246,15 @@
                 <input type="password" id="confirmar_password" name="confirmar_password" required>
             </div>
 
+            <div class="form-group">
+                <label for="rol">👤 Selecciona tu rol:</label>
+                <select id="rol" name="rol" required>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn-registro">Registrarse</button>
         </form>
 
@@ -247,9 +271,10 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const confirmarPassword = document.getElementById('confirmar_password').value;
+            const rol = document.getElementById('rol').value;
 
             // Validaciones básicas
-            if (!nombre || !email || !password || !confirmarPassword) {
+            if (!nombre || !email || !password || !confirmarPassword || !rol) {
                 alert('Por favor, completa todos los campos');
                 return;
             }
@@ -265,7 +290,7 @@
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: `nombre=${encodeURIComponent(nombre)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&confirmar_password=${encodeURIComponent(confirmarPassword)}`
+                body: `nombre=${encodeURIComponent(nombre)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&confirmar_password=${encodeURIComponent(confirmarPassword)}&rol=${encodeURIComponent(rol)}`
             })
             .then(response => response.json())
             .then(data => {

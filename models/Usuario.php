@@ -15,6 +15,7 @@ class Usuario
     public $nombre;
     public $email;
     public $password;
+    public $rol;
     public $fecha_creacion;
 
 
@@ -52,7 +53,7 @@ class Usuario
     public function registrarUsuario()
     {
 
-        $query = "INSERT INTO " . $this->table . " (nombre, email, password) VALUES (:nombre, :email, :password)";
+        $query = "INSERT INTO " . $this->table . " (nombre, email, password, rol) VALUES (:nombre, :email, :password, :rol)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -61,10 +62,13 @@ class Usuario
         $this->nombre = htmlspecialchars(strip_tags($this->nombre));
 
         $this->email = htmlspecialchars(strip_tags($this->email));
+        
+        $this->rol = htmlspecialchars(strip_tags($this->rol));
 
         $stmt->bindParam(':nombre', $this->nombre);
         $stmt->bindParam(':email', $this->email);
         $stmt->bindParam(':password', $this->password);
+        $stmt->bindParam(':rol', $this->rol);
 
         if ($stmt->execute()) {
             return true;

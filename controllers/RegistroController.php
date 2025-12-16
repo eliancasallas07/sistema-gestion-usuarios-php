@@ -8,6 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirmar_password = isset($_POST['confirmar_password']) ? $_POST['confirmar_password'] : $password;
+    $rol = isset($_POST['rol']) ? trim($_POST['rol']) : 'Usuario';
+    $rolesValidos = ['Admin' , 'Manager' , 'Usuario'];
+    if (!in_array($rol, $rolesValidos, true)) {
+        // Si vienen valores fuera de la lista, asignar rol por defecto
+        $rol = 'Usuario';
+    }
 
     // Validaciones básicas
     if (empty($nombre) || empty($email) || empty($password)) {
@@ -26,6 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Registrar usuario
             $usuario->nombre = $nombre;
             $usuario->password = $password;
+            $usuario->rol = $rol;
 
             if ($usuario->registrarUsuario()) {
                 echo json_encode(['success' => true, 'mensaje' => 'Usuario registro exitosamente']);

@@ -108,7 +108,8 @@
         }
 
         input[type="email"],
-        input[type="password"] {
+        input[type="password"],
+        select {
             width: 100%;
             padding: var(--spacing-sm);
             border: 1px solid var(--color-border);
@@ -119,7 +120,8 @@
         }
 
         input[type="email"]:focus,
-        input[type="password"]:focus {
+        input[type="password"]:focus,
+        select:focus {
             outline: none;
             border-color: var(--color-primary);
             box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
@@ -127,8 +129,21 @@
         }
 
         input[type="email"]:hover,
-        input[type="password"]:hover {
+        input[type="password"]:hover,
+        select:hover {
             border-color: var(--color-primary-dark);
+        }
+
+        /* Estilo del selector de rol */
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23666' d='M5.25 7.5l4.5 4.5 4.5-4.5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right var(--spacing-sm) center;
+            padding-right: calc(var(--spacing-lg) + 10px);
+            cursor: pointer;
         }
 
         .btn {
@@ -248,6 +263,15 @@
                 <input type="password" id="password" name="password" required>
             </div>
 
+            <div class="form-group">
+                <label for="rol">👤 Selecciona tu rol:</label>
+                <select id="rol" name="rol" required>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Manager">Manager</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
             <button type="submit" class="btn">Iniciar Sesión</button>
         </form>
 
@@ -280,7 +304,10 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: `email=${email}&password=${password}`
+                    body: (() => {
+                        const rol = document.getElementById('rol').value;
+                        return `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&rol=${encodeURIComponent(rol)}`;
+                    })()
 
                 })
                 .then(response => response.json())

@@ -178,18 +178,25 @@
             font-size: 14px;
         }
 
-        .form-group input {
+        .form-group input,
+        .form-group select {
             padding: var(--spacing-sm);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-sm);
             font-size: 15px;
             transition: all 0.3s ease;
+            background-color: var(--color-white);
         }
 
-        .form-group input:focus {
+        .form-group input:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--color-primary);
             box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-group select {
+            cursor: pointer;
         }
 
         table {
@@ -361,6 +368,14 @@
                     <label>Contraseña:</label>
                     <input type="password" id="password" placeholder="Mínimo 6 caracteres">
                 </div>
+                <div class="form-group">
+                    <label>Rol:</label>
+                    <select id="rol" name="rol">
+                        <option value="Usuario">Usuario</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn">➕ Crear Usuario</button>
             </form>
         </div>
@@ -371,6 +386,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Email</th>
+                    <th>Rol</th>
                     <th>Fecha</th>
                     <th>Acciones</th>
                 </tr>
@@ -422,12 +438,13 @@
             tabla.innerHTML = ''; //Limpiar tabla
 
             //Recorrer cada usuario y crear fila
-            usuarios.forEach(usuario => {
+                usuarios.forEach(usuario => {
                 const fila = `
             <tr>
                 <td>${usuario.id}</td>
                 <td>${usuario.nombre}</td>
                 <td>${usuario.email}</td>
+                <td>${usuario.rol ? usuario.rol : ''}</td>
                 <td>${usuario.fecha_creacion}</td>
                 <td>
                     <div class="action-buttons">
@@ -453,18 +470,20 @@
 
         //Function  para crear un nuevo usuario
 
-        function crearUsuario(nombre, email, password) {
+        function crearUsuario(nombre, email, password, rol) {
             console.log('📝 Datos a enviar:', {
                 nombre: nombre,
                 email: email,
-                password: password
+                password: password,
+                rol: rol
             });
 
             //Crear objeto con los datos
             const datosUsuario = {
                 nombre: nombre,
                 email: email,
-                password: password
+                password: password,
+                rol: rol
             };
 
             //Enviar POST a la API
@@ -473,7 +492,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: `nombre=${encodeURIComponent(nombre)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                    body: `nombre=${encodeURIComponent(nombre)}&email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&rol=${encodeURIComponent(rol)}`
                 })
                 .then(response => response.json())
                 .then(resultado => {
@@ -517,6 +536,7 @@
                     const nombre = document.getElementById('nombre').value;
                     const email = document.getElementById('email').value;
                     const password = document.getElementById('password').value;
+                    const rol = document.getElementById('rol') ? document.getElementById('rol').value : 'Usuario';
 
                     // Validaciones del lado cliente
                     if (nombre.trim().length < 2) {
@@ -539,7 +559,7 @@
                     if (modoEdicion) {
                         actualizarUsuario(idEditado, nombre, email);
                     } else {
-                        crearUsuario(nombre, email, password);
+                        crearUsuario(nombre, email, password, rol);
                     }
                 });
             }
@@ -686,10 +706,10 @@
                 return;
             }
             
-            let csvContent = "ID,Nombre,Email,Fecha\n";
-            
+            let csvContent = "ID,Nombre,Email,Rol,Fecha\n";
+
             listaCompleta.forEach(usuario => {
-                const linea = usuario.id + "," + usuario.nombre + "," + usuario.email + "," + usuario.fecha_creacion + "\n";
+                const linea = usuario.id + "," + usuario.nombre + "," + usuario.email + "," + (usuario.rol ? usuario.rol : '') + "," + usuario.fecha_creacion + "\n";
                 csvContent += linea;
             });
             
