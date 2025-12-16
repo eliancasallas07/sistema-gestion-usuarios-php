@@ -9,6 +9,7 @@ class UsuarioController
     //Constructor
     public function __construct()
     {
+        require_once '../helpers/auth.php';
         $this->usuarioModel = new Usuario();
     }
 
@@ -56,6 +57,11 @@ class UsuarioController
             return "Error: ID, nombre y email son obligatorios";
         }
 
+        // Solo Managers pueden editar via API
+        if (!auth_has_role('Manager')) {
+            return "Error: Permisos insuficientes";
+        }
+
         //Asignar valores al modelo (incluyendo el ID)
         $this->usuarioModel->id = $id;
         $this->usuarioModel->nombre = $nombre;
@@ -74,6 +80,10 @@ class UsuarioController
         // Eliminar usuario por ID  
         if (empty($id)) {
             return "Error: ID es obligatorio";
+        }
+        // Solo Managers pueden borrar
+        if (!auth_has_role('Manager')) {
+            return "Error: Permisos insuficientes";
         }
         //Asignar ID al modelo
         $this->usuarioModel->id = $id;

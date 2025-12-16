@@ -1,6 +1,7 @@
 <?php
 // Incluir el modelo Usuario
 require_once '../models/Usuario.php';
+require_once '../helpers/auth.php';
 
 // Verificar que sea una petición POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -13,6 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!in_array($rol, $rolesValidos, true)) {
         // Si vienen valores fuera de la lista, asignar rol por defecto
         $rol = 'Usuario';
+    }
+
+    // Si hay sesión activa y el rol de la sesión es 'Usuario', no permitir crear usuarios desde el panel
+    $current = auth_get_current_user();
+    if ($current && isset($current['rol']) && strcasecmp($current['rol'], 'Usuario') === 0) {
+        echo json_encode(['success' => false, 'mensaje' => 'Permisos insuficientes para crear usuarios']);
+        exit;
     }
 
     // Validaciones básicas
